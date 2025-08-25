@@ -204,28 +204,36 @@ public abstract class BaseKLineChartView extends ScrollAndScaleView implements D
         }
     }
 
-    private void initLottieView() {
-    	String jsonString = configManager.closePriceRightLightLottieSource;
-    	if (lastLoadLottieSource == jsonString) {
-    		return;
-    	}
-    	lastLoadLottieSource = jsonString;
-        lottieDrawable.setCallback(this);
-        
-        final float scale = configManager.closePriceRightLightLottieScale;
-        if (jsonString.length() > 0) {
-            lottieDrawable.setImagesAssetsFolder(configManager.closePriceRightLightLottieFloder);
-            LottieCompositionFactory.fromJsonString(jsonString, null).addListener(new LottieListener<LottieComposition>() {
+private void initLottieView() {
+    String jsonString = configManager.closePriceRightLightLottieSource;
+    if (lastLoadLottieSource.equals(jsonString)) {
+        return;
+    }
+    lastLoadLottieSource = jsonString;
+
+    lottieDrawable.setCallback(this);
+
+    final float scale = configManager.closePriceRightLightLottieScale;
+    if (jsonString.length() > 0) {
+    lottieDrawable.setImagesAssetsFolder(configManager.closePriceRightLightLottieFloder);
+
+        LottieCompositionFactory.fromJsonString(jsonString, null)
+            .addListener(new LottieListener<LottieComposition>() {
                 @Override
                 public void onResult(LottieComposition composition) {
                     lottieDrawable.setComposition(composition);
                     lottieDrawable.setRepeatCount(Integer.MAX_VALUE);
-                    lottieDrawable.setScale(scale);
+
+                    int width = (int) (composition.getBounds().width() * scale);
+                    int height = (int) (composition.getBounds().height() * scale);
+                    lottieDrawable.setBounds(0, 0, width, height);
+
                     lottieDrawable.playAnimation();
                 }
             });
-        }
     }
+}
+
 
 
     @Override
