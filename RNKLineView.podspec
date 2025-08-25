@@ -6,10 +6,10 @@ Pod::Spec.new do |s|
   s.description  = <<-DESC
                   RNKLineView
                    DESC
-  s.homepage     = "https://github.com/hellohublot"
+  s.homepage     = "https://github.com/cyntax-js"
   s.license      = "MIT"
   # s.license      = { :type => "MIT", :file => "FILE_LICENSE" }
-  s.author             = { "hellohublot" => "hellohublot@gmail.com" }
+  s.author             = { "cyntax" => "cyntax@gmail.com" }
   s.platform     = :ios, "9.0"
   s.source       = { :git => "oneMore", :tag => "master" }
   s.source_files  = "ios/Classes/**/*"
