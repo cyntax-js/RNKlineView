@@ -204,32 +204,29 @@ public abstract class BaseKLineChartView extends ScrollAndScaleView implements D
         }
     }
 
-  private void initLottieView() {
-    String jsonString = configManager.closePriceRightLightLottieSource;
-    if (lastLoadLottieSource == jsonString) {
-        return;
+    private void initLottieView() {
+    	String jsonString = configManager.closePriceRightLightLottieSource;
+    	if (lastLoadLottieSource == jsonString) {
+    		return;
+    	}
+    	lastLoadLottieSource = jsonString;
+        lottieDrawable.setCallback(this);
+        
+        final float scale = configManager.closePriceRightLightLottieScale;
+        if (jsonString.length() > 0) {
+            lottieDrawable.setImagesAssetsFolder(configManager.closePriceRightLightLottieFloder);
+            LottieCompositionFactory.fromJsonString(jsonString, null).addListener(new LottieListener<LottieComposition>() {
+                @Override
+                public void onResult(LottieComposition composition) {
+                    lottieDrawable.setComposition(composition);
+                    lottieDrawable.setRepeatCount(Integer.MAX_VALUE);
+                    lottieDrawable.setScale(scale);
+                    lottieDrawable.playAnimation();
+                }
+            });
+        }
     }
-    lastLoadLottieSource = jsonString;
-    lottieDrawable.setCallback(this);
 
-    final float scale = configManager.closePriceRightLightLottieScale;
-    if (jsonString.length() > 0) {
-        lottieDrawable.setImagesAssetsFolder(configManager.closePriceRightLightLottieFloder);
-        LottieCompositionFactory.fromJsonString(jsonString, null).addListener(new LottieListener<LottieComposition>() {
-            @Override
-            public void onResult(LottieComposition composition) {
-                lottieDrawable.setComposition(composition);
-                lottieDrawable.setRepeatCount(Integer.MAX_VALUE);
-
-                // ✅ Replace deprecated setScale()
-                lottieDrawable.setScaleX(scale);
-                lottieDrawable.setScaleY(scale);
-
-                lottieDrawable.playAnimation();
-            }
-        });
-    }
-}
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
